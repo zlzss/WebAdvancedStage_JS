@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 设置
+        var obj1 = {};
+        var str = 'abc';
+        obj1.a = '1';  // 添加一个属性
+        // 字面量属性名
+        obj1['ab'] = 'abc';
+        //  变量属性名
+        obj1[str] = 'str';  // obj1.abc = 'str'
+        // 测试
+        obj1.str = '999';   // obj1.str =>  '999'
+        console.log(obj1);
+
+        // 变量获取
+        console.log( obj1[str] );
+        //遍历对象
+        // 方式1: 以key
+        var arr = [1,2,3,4];
+        for(var key in arr) {
+            console.log(key,arr[key]);
+        }
+        // 方式2: 以value
+        for(var val of arr) { // 换成对象会报错，不可迭代，但是后续Symbol老师就会告诉大家解决
+            console.log(val);
+        }
+
+        // 非要使用对象的val遍历的话，ES6假如的Object.values
+        var vals = Object.values(obj1); 
+        console.log(vals);
+
+        var keys = Object.keys(obj1); 
+        console.log('=============前方高能=============')
+        console.log(keys);
+
+
+        // 反射类的设置 和删除属性
+        var obj3 = {};
+
+        Reflect.set(obj3,'name','jack');
+        console.log(obj3);
+
+        var delOk = Reflect.deleteProperty(obj3,'name');
+        console.log(delOk,obj3);
+
+
+
+
+    </script>
+</body>
+</html>

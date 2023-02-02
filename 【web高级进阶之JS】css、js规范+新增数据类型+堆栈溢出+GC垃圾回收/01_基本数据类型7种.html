@@ -1,0 +1,86 @@
+<!--
+ * @Description: 
+ * @Autor: ZhaoLei
+ * @Date: 2023-02-01 10:35:48
+ * @LastEditors: ZhaoLei
+ * @LastEditTime: 2023-02-02 11:07:30
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      var num = 1;
+      var str = "字符串";
+      var bool = true;
+      var und = undefined;
+      var nul = null;
+      // console.log(num, str, bool, und, nul);
+      console.log(typeof num);
+      console.log(typeof str);
+      console.log(typeof bool);
+      console.log(typeof und);
+      console.log(typeof nul); // [Null] object 就是一个历史错误， null 代表 【对象】的值未设置
+      // null是指对象未被设置，undefined是指所有变量声明没被赋值
+
+      // 新增的基本数据类型
+      // ES6 Symbol 每次都是新的
+      var smb0 = Symbol("abc"); // 唯一的看起来像abc的标识
+      var smb1 = Symbol("abc");
+      console.log(smb0); // 唯一
+      console.log(smb1); // 唯一
+      console.log(smb0 === smb1); // false不会类型转换的全等，对比对象的引用是否相等，如果相等一定是同一个值
+      // 提供了Sybmol的注册池，注册之后，相同标识会从池子里取出来，不会再次创建
+      var smb2 = Symbol.for("Green");
+      var smb3 = Symbol.for("Green");
+
+      console.log(smb2);
+      console.log(smb3);
+      console.log(smb2 === smb3); // true
+
+      var obj = { c: "c" };
+      var a = Symbol("a");
+      var b = Symbol.for("b");
+      
+      obj[a] = "localSymbol";
+      obj[b] = "globalSymbol";
+      
+      var objectSymbols = Object.getOwnPropertySymbols(obj);
+      console.log(obj);
+      console.log(objectSymbols.length); // 2
+      console.log(objectSymbols); // [Symbol(a), Symbol(b)]
+      console.log(objectSymbols[0]); // Symbol(a)
+      console.log(typeof objectSymbols[0]); // symbol
+      Object.getOwnPropertySymbols;
+      // v-for="(i)"
+      Symbol(1);
+      console.log("========cehsi========");
+
+      // BigInt
+      let max = Number.MAX_SAFE_INTEGER;
+      console.log(max); // 9007199254740991
+      let max1 = max + 1; // 9007199254740992
+      let max2 = max + 2; // 9007199254740993
+      console.log(max1);
+      console.log(max2);
+      console.log(max1 === max2); // true 超过阈值计算错误
+
+      // 和Sybmol一样，也不能被new
+      // 数字n => BigInt字面量声明方式
+      let maxx = BigInt(Number.MAX_SAFE_INTEGER);
+        //  let maxx1 = maxx + 1;  // 会报错
+      let maxx1 = maxx + 1n; // 会报错
+      let maxx2 = maxx + BigInt(2);
+      console.log("============重点看下面========");
+      console.log(maxx1);
+      console.log(maxx2);
+      console.log(maxx1 === maxx2);
+    </script>
+  </body>
+</html>

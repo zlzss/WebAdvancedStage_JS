@@ -1,0 +1,28 @@
+<!--
+ * @Description: 
+ * @Autor: ZhaoLei
+ * @Date: 2023-02-01 10:38:36
+ * @LastEditors: ZhaoLei
+ * @LastEditTime: 2023-02-01 10:39:04
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 浏览器只会崩溃，node端会报错
+      let arr = [];
+      // 比较好做类型追溯,
+      function MyObject() {}
+      while (true) {
+        arr.push(new MyObject()); // 每一次执行都是内存泄漏
+      }
+      // 内存溢出
+    </script>
+  </body>
+</html>
