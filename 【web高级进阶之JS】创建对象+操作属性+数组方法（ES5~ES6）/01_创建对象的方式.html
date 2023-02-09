@@ -1,105 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
-
-
+  <body>
     <script>
-        // 方式1： 字面量
-        var obj = { a: 1, b: 2 };   // var x = 1;
-        console.log(obj);
-        // 方式2: 构造函数
-        var obj1 = new Object();
-        console.log(obj1);
-        // 方式2: 传递参数
-        var tmpObj2 = { c: 3, d: 4 }
-        var obj2 = new Object(tmpObj2);
-        console.log(obj2);
-        console.log(tmpObj2 === obj2); // true MDN文档: 如果传递参数(非null或者undefined)的话则直接返回该对象
+      // 方式1： 字面量
+      var obj = { a: 1, b: 2 }; // var x = 1;
+      console.log(obj);
+      // 方式2: 构造函数
+      var obj1 = new Object();
+      console.log(obj1);
+      // 方式2: 传递参数
+      var tmpObj2 = { c: 3, d: 4 };
+      var obj2 = new Object(tmpObj2);
+      console.log(obj2);
+      console.log(tmpObj2 === obj2); // true MDN文档: 如果传递参数(非null或者undefined)的话则直接返回该对象
 
-
-        // 方式3: 定制化创建对象(依赖原型)
-        //   模板  个性化配置
-        var obj3 = Object.create({ f: 1 }, {
-            // 一个个属性配置
-            myAge: {
-                value: 34,
-                // 是否可写
-                writable: false
-            }
-        });
-
-        console.log(obj3);
-
-        // 方式3扩展  也可以后续再对属性进行定义
-        var obj4 = Object.create({});
-        Object.defineProperty(obj4, 'myAge', {
-            value: 35,
+      // 方式3: 定制化创建对象(依赖原型)
+      //   模板  个性化配置
+      var obj3 = Object.create(
+        { f: 1 },
+        {
+          // 一个个属性配置
+          myAge: {
+            value: 34,
             // 是否可写
-            writable: true
-
-        });
-        console.log(obj4);
-
-        // 方式3扩展  其他配置属性
-        var obj5 = Object.create({}, {
-            // 一个个属性配置
-            myAge: {
-                // value writable与下面互斥
-                set(setVal) {
-                    console.log('数据劫持！', setVal); // 如果想要玩转set+get，搞个变量存储即可
-                },
-                get() {
-                    console.log('获取数据!')
-                    return 'Green 有点老了'
-                }
-            }
-        });
-        console.log(obj5);
-
-        var obj6 = Object.create({}, {
-            myAge: {
-                value: 1,
-                configurable: true,// 默认值是false 是否可以配置Object.defineProperty, 是否属性可以被删除
-                enumerable: false, // 是否可以被枚举, myAge 可以被 for in语法获取
-            }
-        });
-        // configurable影响下面代码
-        Object.defineProperty(obj6, 'myAge', {
-            value: 2
-        });
-
-        // enumerable
-        for (var key in obj6) {
-            console.log(key);
-            console.log(obj6[key]);
+            writable: false,
+          },
         }
+      );
 
-        // 方式4: 【附加】
-        var obj7 = Object.assign({}, { a: 1 }); // 对于原有对象的属性附加
-        console.log(obj7)
+      console.log(obj3);
 
-        // 方式5: 使用现有的对象构造器来创建
-        // 方式5.1:
-        var obj8 = new obj7.constructor() // new Object();
-        console.log('=========前方高能======');
-        console.log(obj8); // obj7 的类型 就和obj8 是一致的
+      // 方式3扩展  也可以后续再对属性进行定义
+      var obj4 = Object.create({});
+      Object.defineProperty(obj4, "myAge", {
+        value: 35,
+        // 是否可写
+        writable: true,
+      });
+      console.log(obj4);
 
-        // ES6 假如了类型反射 也可以通过API来实现上述
-        // 方式5.2:
-        var obj9 = Reflect.construct(obj8.constructor,[]);
-        console.log('=========前方高能======');
-        console.log(obj9);
-       
+      // 方式3扩展  其他配置属性
+      var obj5 = Object.create(
+        {},
+        {
+          // 一个个属性配置
+          myAge: {
+            // value writable与下面互斥
+            set(setVal) {
+              console.log("数据劫持！", setVal); // 如果想要玩转set+get，搞个变量存储即可
+            },
+            get() {
+              console.log("获取数据!");
+              return "Green 有点老了";
+            },
+          },
+        }
+      );
+      console.log(obj5);
 
+      var obj6 = Object.create(
+        {},
+        {
+          myAge: {
+            value: 1,
+            configurable: true, // 默认值是false 是否可以配置Object.defineProperty, 是否属性可以被删除
+            enumerable: false, // 是否可以被枚举, myAge 可以被 for in语法获取
+          },
+        }
+      );
+      // configurable影响下面代码
+      Object.defineProperty(obj6, "myAge", {
+        value: 2,
+      });
+
+      // enumerable
+      for (var key in obj6) {
+        console.log(key);
+        console.log(obj6[key]);
+      }
+
+      // 方式4: 【附加】
+      var obj7 = Object.assign({}, { a: 1 }); // 对于原有对象的属性附加
+      console.log(obj7);
+
+      // 方式5: 使用现有的对象构造器来创建
+      // 方式5.1:
+      var obj8 = new obj7.constructor(); // new Object();
+      console.log("=========前方高能======");
+      console.log(obj8); // obj7 的类型 就和obj8 是一致的
+
+      // ES6 假如了类型反射 也可以通过API来实现上述
+      // 方式5.2:
+      var obj9 = Reflect.construct(obj8.constructor, []);
+      console.log(obj9);
+      
+      let oo = { a: 1 };
+      let obj10 = new oo.constructor();
+      let obj111 = Reflect.construct(obj10.constructor, []);
+      console.log("=========前方高能======");
+      console.log(obj10, obj111);
     </script>
-</body>
-
+  </body>
 </html>

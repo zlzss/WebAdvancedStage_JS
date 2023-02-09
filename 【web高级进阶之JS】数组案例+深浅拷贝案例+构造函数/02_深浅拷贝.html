@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+        var o1 = { a: 1, b: 2 }, o2 = o1;
+        o2.a = 'o2';
+        o1.b = 'o1';
+        console.log(o1, o2);
+
+     
+        var arr1 = [1,2] ;
+        var arr2 = arr1.slice(); // 不给参数返回自身 , 深拷贝？
+        console.log(arr1 === arr2); // 是否同一个对象
+        arr1[0] = 'arr1[0]';
+        console.log(arr1,arr2)
+
+
+        // 如果元素是引用数据类型？
+        var arr1 = [{ a:1 }] ;
+        var arr2 = arr1.slice(); // 不给参数返回自身 , 深拷贝？
+        // 【函数返回一个新数组，但是元素不处理】
+      
+        console.log(arr1 === arr2); // 是否同一个对象
+        arr1[0].a = '修改';
+        console.log(arr1,arr2);
+
+
+        // 对象？
+        var obj1 = { a:{b:1} };
+        var obj2 = Object.create(obj1); // 根据传递的属性不变，创建一个新对象
+        console.log('========前方高能=========')
+        console.log(obj1 === obj2);
+        obj1.a = '修改';
+        console.log(obj1,obj2);
+
+
+    </script>
+</body>
+
+</html>

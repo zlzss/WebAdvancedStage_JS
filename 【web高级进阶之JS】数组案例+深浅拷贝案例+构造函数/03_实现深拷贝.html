@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let obj1 = {
+            // typeof 数组|对象 =>  'object'
+            // Array.isArray()
+            arr: [1, 2, 3],
+            arrayOfObjs: [{ c: 5 }, { d: 6 }],
+            date: new Date(),
+            object: { val: 4 },
+            // 增加一个属性
+            fn: function () {  // typeof fn ===> 'function'
+                return 5;
+            },
+            set: new Set([7, 8, 9, { e: 10 }]),
+            map: new Map([
+                [11, 'f'],
+                [12, 'g']
+            ]),
+            reg: /[h-z]/
+        };
+
+
+        let wm = new WeakMap();
+
+        function deepClone(obj) {
+            // 基本数据类型 和函数处理, null
+            // function f (){}
+            // typeof f => 'function'
+            if (obj === null || typeof obj !== 'object') {
+                // 直接返回
+                return obj
+            }
+
+            // 如果缓存中已经存在该对象则不继续操作 WeakMap
+            if (wm.has(obj)) {
+                return wm.get(obj)
+            }
+            // 处理Map
+            // 处理Set
+            // 处理RexExp
+            if (obj instanceof Map) {
+                var tmp = new Map();
+
+                wm.set(obj,tmp);
+
+                for (var values of obj) {
+                    var key = values[0];
+                    var val = values[1];
+                    tmp.set(key, deepClone(val));
+                }
+                return tmp;
+
+            } else if (obj instanceof Set) {
+                var tmp = new Set();
+                wm.set(obj,tmp);
+
+                for (var val of obj) {
+                    tmp.add(deepClone(val));
+                }
+                return tmp;
+
+            } else if (obj instanceof RegExp) {
+                var tmp = new RegExp(obj);
+                wm.set(obj,tmp);
+                return tmp;
+            } else {
+                // 处理数组、对象、Date
+                var tmp = new obj.constructor();
+                wm.set(obj,tmp);
+                for(var key in obj){
+                    tmp[key] = deepClone(obj[key]);
+                }
+                return tmp;
+            }
+        }
+
+        // 第一版
+        // var cloned = deepClone(obj1);
+        // console.log(cloned === obj1);
+        // obj1.arrayOfObjs[0].c = 999;
+        // console.log(cloned.arrayOfObjs);
+        // console.log(obj1.arrayOfObjs);
+
+
+        // 第二版
+        var obj2 = {  // 环形对象
+            to:obj1
+        }
+        obj1.to = obj2;
+
+        // 深拷贝使用比较多的方式
+        // var cloned = JSON.parse(JSON.stringify(obj1)); // 怕环形对象
+        // 怕function 等一些特定数据结构，要【纯数据】
+        // console.log(cloned)
+
+
+        var cloned = deepClone(obj1);
+    </script>
+</body>
+
+</html>

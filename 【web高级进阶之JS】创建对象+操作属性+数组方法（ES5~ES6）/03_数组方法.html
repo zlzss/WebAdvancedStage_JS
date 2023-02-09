@@ -1,106 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
+    <script>
+      // 格子内有东西
+      var i = 0; // 有格子不行，必须有东西才能遍历
+      var arr = new Array(100).fill(null).map(function () {
+        return i++;
+      });
+      // 基本
+      // 增删改查
+      // 增加元素
+      // arr[0] = '1';
+      // 删除元素 从索引2开始 删除7个
+      // arr.splice(2,7);
+      // 修改元素
+      // arr[10] = '10'
+      console.log(arr);
 
-    <script>                       // 格子内有东西
-        var i = 0;              // 有格子不行，必须有东西才能遍历
-        var arr = new Array(100).fill(null).map(function () { return i++; })
-        // 基本
-        // 增删改查
-        // 增加元素
-        // arr[0] = '1';
-        // 删除元素 从索引2开始 删除7个
-        // arr.splice(2,7);
-        // 修改元素
-        // arr[10] = '10'
-        // console.log(arr);
+      //获取元素
+      console.log(arr[50]);
+      // 获取一堆元素
+      console.log(arr.slice(20, 30));
+      // slice参数可以传递负数，负数代表 倒数第几位
+      console.log(arr.slice(10, -10)); // [0,1,2,3,4,5,6....  99]
+      // [10,89]
+      // arr[200] = 123; // 连续控件，多余的内容是空
+      // console.log(arr)
 
-        //获取元素
-        // console.log(arr[50]);
-        // 获取一堆元素
-        // console.log(arr.slice(20,30));
-        // slice参数可以传递负数，负数代表 倒数第几位
-        // console.log(arr.slice(10,-10)); // [0,1,2,3,4,5,6....  99]
-        // [10,89]
-        // arr[200] = 123; // 连续控件，多余的内容是空
+      // 一个方法调用，实现在数组的中间，插入,abcdef
+      //       從50開始,刪除0個，並加入這些
+      // arr.splice(50, 0, 'a', 'b', 'c', 'd', 'e');
+      console.log(arr.find((ele) => ele === 25));
+      console.log(arr.findIndex((ele) => ele === 25));
+      // 头部弹出（默认弹出第一个元素）
+      //   console.log(arr);
+      //   console.log(arr.shift());
+      //   // 尾部弹出（默认弹出最后一个元素）
+      //   console.log(arr.pop());
+      // 首尾 压入 弹出
+      // 数组开头
+      //   arr.unshift("-1");
+      //   var ele = arr.shift(); // 弹出第一个元素
+      // console.log(arr, ele);
 
-        // 一个方法调用，实现在数组的中间，插入,abcdef
-        //       從50開始,刪除0個，並加入這些
-        arr.splice(50, 0, 'a', 'b', 'c', 'd', 'e');
-        // console.log(arr);
+      // 尾部
+      //   arr.push("last");
+      //   var ele2 = arr.pop(); // 弹出最后一个元素
+      //   console.log(arr, ele2);
 
-        // 首尾 压入 弹出
-        // 数组开头
-        arr.unshift('-1');
-        var ele = arr.shift(); // 弹出第一个元素
-        // console.log(arr, ele);
+      // 后续新增的
+      // 遍历: 每个元素都遍历，查看而不修改
+      arr.forEach(function (ele, index, originalArr) {
+        // 原数组不要改变，改变也无效
+        if (index === 0) console.log(originalArr);
+        // console.log(ele,index);
+        // console.log(this)
+      }); // 其内部没有处理this, 改变this指向数组
 
-        // 尾部
-        arr.push('last');
-        var ele2 = arr.pop();// 弹出最后一个元素
-        console.log(arr,ele2)
+      // map
+      var newArr = arr.map(function (ele, index, originalArr) {
+        // 返回新数组中的每一个元素
+        // 对元素进行加工
+        return {
+          id: ele,
+        };
+      });
+      console.log(newArr);
 
-        // 后续新增的
-        // 遍历: 每个元素都遍历，查看而不修改
-        arr.forEach(function(ele,index,originalArr){
-            // 原数组不要改变，改变也无效
-            if (index === 0) console.log(originalArr);
-            console.log(ele,index);
-        });// 其内部没有处理this, 改变this指向数组
+      // 数组过滤
+      var newArr1 = arr.filter(function (ele, index, originalArr) {
+        return ele % 2 === 0; // 获取双数
+      });
+      console.log(newArr1);
 
-        // map
-        var newArr = arr.map(function(ele,index,originalArr){
+      // 是否每一个元素都满足条件，如果出现一个不满足，就直接返回false
+      // 返回boolean
+      var isOk = arr.every(function (ele) {
+        return ele < 50;
+      });
+      console.log(isOk, arr); // false
 
-            // 返回新数组中的每一个元素
-            // 对元素进行加工
-            return {
-                id:ele
-            }
-        });        
-        console.log(newArr);
+      // 如果有一个满足条件就结束，并返回true,全部都不满足才返回false
+      var isOk2 = arr.some(function (ele) {
+        console.log("执行了some");
+        return ele < 50;
+      });
+      console.log(isOk2);
 
-        // 数组过滤
-        var newArr1 = arr.filter(function(ele,index,originalArr){
-            return ele % 2 === 0; // 获取双数
-        });
-        console.log(newArr1);
+      // every 是全满足, some 是一个满足
 
-        // 是否每一个元素都满足条件，如果出现一个不满足，就直接返回false
-        // 返回boolean
-        var isOk = arr.every(function(ele){
-            return ele < 200
-        });
-        console.log(isOk,arr); // false
-
-        // 如果有一个满足条件就结束，并返回true,全部都不满足才返回false
-        var isOk2 = arr.some(function(ele){
-            console.log('执行了some');
-            return ele < 200
-        });
-        console.log('========前方高能===========');
-        console.log(isOk2);
-
-        // every 是全满足, some 是一个满足
-
-        // 求和
-        var sum = arr.reduce(function(sum,ele){
-
-            if (typeof ele === 'string')return sum;
-            return sum + ele;
-        },0);
-        console.log(sum);
-
-
-
+      // 求和
+      var nums = [1, "2", "3", "4", 5, "6", 7, 8, 9, "10"];
+      var sum = nums.reduce(function (total, ele) {
+        console.log("reduce内部ele值: " + ele, "====", "reduce内部total值:", total);
+        console.log();
+        if (typeof ele === "string") return total;
+        return total + ele;
+      }, 0);
+      console.log("reduce外部", sum);
     </script>
-</body>
-
+  </body>
 </html>

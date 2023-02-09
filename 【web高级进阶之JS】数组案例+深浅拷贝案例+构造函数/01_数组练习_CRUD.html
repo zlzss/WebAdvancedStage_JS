@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>今日待办</h2>
+    <!-- id作为驼峰获取不到，用全小写  -->
+    <input type="text" id="taskname"> <button id="add">添加</button>
+    <ul id="list"></ul>
+
+
+    <script>
+        // <li>任务内容<button>修改</button><button>删除</button></li>
+        var arr = []; // 记录所有的数据，好方便对比，进行删除和修改
+        add.onclick = function () {
+            var val = taskname.value;
+            // 排除空值
+            if (!val) return;
+
+            // 新的增加对象
+            var addObj = {
+                val: val
+            }
+            // 附加唯一标识
+            var ids = arr.map(function (obj, index, arr) {
+                return obj.id || 0;
+            });
+            // var maxId = Math.max(...ids) + 1; 
+            // 参数需要展开的一个个元素,需要传递参数，否则-infinity
+            var maxId = ids[0] || 0;
+
+            for (var i = 1; i < ids.length; i++) {
+                if (ids[i] > maxId) {
+                    maxId = ids[i];
+                }
+            }
+            maxId++;
+            // 新对象附加
+            // addObj.id = maxId;
+            Reflect.set(addObj, 'id', maxId);
+            // 假如到数组中
+            arr.push(addObj);
+            // 新的dom
+            var addHtml = `
+                <li unique-id="${maxId}">${val}
+                    <button onclick="update(this)">修改</button>
+                    <button onclick="del(this)">删除</button>
+                </li>
+            `
+            list.innerHTML += addHtml;
+        }
+
+        function update(element) {
+                // 唯一ID
+            var id = element.parentNode.getAttribute('unique-id');
+
+            // 通过id查找数组元素
+            var eleObj = arr.find(function(ele,index,arr){
+                return ele.id == id;
+            });
+
+            if(!eleObj)return;
+
+            var newVal = 'Green修改';
+            // 修改val属性值
+            Reflect.set(eleObj,'val',newVal)
+            console.log(element,'元素');
+            // 向上获取id元素
+            var children = element.parentNode.childNodes;
+
+            // 获取到目标文本节点
+            var textNode = children[0];
+            // 固定值更新
+            textNode.nodeValue = newVal;
+            console.log(arr,'=-======');
+            // 父元素
+            console.log(element.parentNode);
+        }
+        function del(element) {
+            // 页面删除
+            var id = element.parentNode.getAttribute('unique-id');
+            // 找到父元素删除li
+            element.parentNode.remove();
+            
+            // js数组删除元素 id
+            var index = arr.findIndex(function(ele,index,arr){
+                return id == ele.id;
+            });
+            // 没有找到返回-1
+            if (index === -1) return;
+            // 删除
+            arr.splice(index,1);
+
+
+        }   
+
+
+    </script>
+
+
+</body>
+
+</html>
